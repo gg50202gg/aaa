@@ -15,15 +15,18 @@ class MainPage(webapp2.RequestHandler):
             self.response.headers['Content-Type'] = 'text/html'
             self.response.write('Welcome to TST<br>')
             self.response.write('My name is %s!<br>' % user.nickname())
-            self.response.write('<a href="%s">upload file</a><br>' % self.request.url)
-            self.response.write('<a href="%s">Sign Out</a><br>' % users.create_logout_url(self.request.url))
+            self.response.write(
+                '<a href="%s">upload file</a><br>' % self.request.url)
+            self.response.write('<a href="%s">Sign Out</a><br>' %
+                                users.create_logout_url(self.request.url))
         else:
             self.redirect(users.create_login_url(self.request.url))
 
 
 class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
     def post(self):
-        upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
+        # 'file' is file upload field in the form
+        upload_files = self.get_uploads('file')
         blob_info = upload_files[0]
 
         self.response.headers['Content-Type'] = 'text/html'
@@ -50,7 +53,7 @@ class DeleteHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
-    ('/myS3/upload', UploadHandler),
-    ('/myS3/download', DownloadHandler),
-    ('/myS3/delete', DeleteHandler)
+    #    ('/myS3/upload', UploadHandler),
+    #    ('/myS3/download', DownloadHandler),
+    #    ('/myS3/delete', DeleteHandler)
 ], debug=True)
